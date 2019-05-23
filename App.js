@@ -1,20 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View, PermissionsAndroid } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { Permissions } from 'expo';
 
 async function requestCameraPermission() {
   try {
-    const granted = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.CAMERA,
-      {
-        title: 'Cool Photo App Camera Permission',
-        message:
-          'Cool Photo App needs access to your camera ' +
-          'so you can take awesome pictures.',
-        buttonNegative: 'Cancel',
-        buttonPositive: 'OK',
-      },
-    );
-    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+    const granted = await Permissions.askAsync(Permissions.CAMERA);
+    if (granted.status === 'granted') {
       return true;
     } else {
       return requestCameraPermission();
