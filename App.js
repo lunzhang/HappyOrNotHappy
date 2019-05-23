@@ -1,40 +1,25 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Permissions } from 'expo';
-
-async function requestCameraPermission() {
-  try {
-    const granted = await Permissions.askAsync(Permissions.CAMERA);
-    if (granted.status === 'granted') {
-      return true;
-    } else {
-      return requestCameraPermission();
-    }
-  } catch (err) {
-    return requestCameraPermission();
-  }
-}
+import { Camera, Permissions } from 'expo';
 
 export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-    requestCameraPermission();
+  componentDidMount() {
+    this.askPermission();
+  }
+
+  async askPermission() {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    if (status !== 'granted') {
+      this.askPermission();
+    }
   }
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Hi</Text>
-      </View>
+      <Camera
+        style={{ flex: 1 }}
+        type={Camera.Constants.Type.front}
+      />
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
