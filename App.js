@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { NativeModules, StyleSheet, Text, View } from 'react-native';
 import { Camera, Permissions } from 'expo';
+
+const ToastExample = NativeModules.ToastExample;
 
 export default class App extends Component {
   state = { ratio: '1:1' }
@@ -13,18 +15,16 @@ export default class App extends Component {
   }
 
   async componentDidMount() {
-    this.askPermission();
-    const ratio = await this.camera.getSupportedRatiosAsync();
-    this.setState({ ratio: ratio[ratio.length - 1] });
+    // this.askPermission();
+    // const ratio = await this.camera.getSupportedRatiosAsync();
+    // this.setState({ ratio: ratio[ratio.length - 1] });
+    console.log(ToastExample, NativeModules.RNTensorFlowPackage);
   }
 
   render() {
     return (
-      <Camera
-        style={{ flex: 1 }}
-        type={Camera.Constants.Type.front}
-        ratio={this.state.ratio}
-        ref={ref => { this.camera = ref; }}
+      <View
+
       />
     );
   }
